@@ -4,6 +4,8 @@
 
 CSRF Protection plugin for [Minibase](http://github.com/peec/minibase) applications.
 
+Handle evil CSRF attacks for all your routes except GET.
+
 
 ## Install
 
@@ -36,3 +38,27 @@ Echo `$csrfTokenInput` in the forms that does post requests.
 ```
 
 You are now safe for CSRF protection.
+
+
+
+
+## Configuration array:
+
+- store: By default it uses cookie, any other value will use SESSION. Note SESSION must be started if session is used.
+- token_name: the name of the token. Default is "csrfToken".
+
+
+
+## Events
+
+You may customize the error exception if a token is invalid by adding event handler.
+
+
+```php
+$mb->events->on("csrf:invalid", function ($request) {
+	return function () {
+		return $this->respond("html")->view("csrfinvalid.html.php");
+	};
+});
+```
+
