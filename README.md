@@ -27,7 +27,7 @@ Add the plugin to your app.
 $mb->initPlugins(array('Pkj\Minibase\Plugin\Csrf\CsrfPlugin' => null));
 ```
 
-Echo `$csrfTokenInput` in the forms that does post requests.
+Echo `$csrfTokenInput` in the forms that does post requests. Note, also `$csrfToken` is available, it contains only the token.
 
 ```php
 
@@ -44,7 +44,7 @@ You are now safe for CSRF protection.
 
 ## Configuration array:
 
-- store: By default it uses cookie, any other value will use SESSION. Note SESSION must be started if session is used.
+- store: `cookie` or `session`. Note SESSION must be started if session is used. I recommend using `cookie`.
 - token_name: the name of the token. Default is "csrfToken".
 
 
