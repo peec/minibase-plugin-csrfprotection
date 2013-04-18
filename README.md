@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/peec/minibase-plugin-csrfprotection.png?branch=master)](https://travis-ci.org/peec/minibase-plugin-csrfprotection)
+
 # CSRF Protection Plugin
 
 CSRF Protection plugin for [Minibase](http://github.com/peec/minibase) applications.
