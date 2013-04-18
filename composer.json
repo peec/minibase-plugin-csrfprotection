@@ -1,0 +1,22 @@
+{
+    "name": "pkj/minibase-plugin-csrfprotection",
+    "type": "library",
+    "description": "Plugin that enabled CSRF Protection by default for Minibase framework apps.",
+    "homepage": "http://github.com/peec/minibase-plugin-csrfprotection",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Petter Kjelkenes",
+            "email": "kjelkenes@gmail.com",
+            "homepage": "http://pkj.no",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {"Pkj_Minibase_Plugin_Csrf": "src/"}
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "minibase/minibase": "dev-master"
+    }
+}
