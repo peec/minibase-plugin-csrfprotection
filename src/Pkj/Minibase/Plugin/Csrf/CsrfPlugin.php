@@ -68,12 +68,11 @@ class CsrfPlugin extends Plugin {
 			}
 		};
 		$this->beforeRender = function (View $view, &$args) use ($that) {
-			// Assigns a view variable so it can be used in views. Uses token name.
-			// So default $csrfToken
-			$args[$that->tokenName()] = $that->getServerToken();
+			// Assigns a view variable so it can be used in views.
+			$args["csrfToken"] = $that->getServerToken();
 			
 			// Assigns a view variable (appends "Input" in the end so it can add hidden input field.
-			$args[$that->tokenName() . "Input"] = '<input type="hidden" name="'.$that->tokenName().'" value="'.$that->getServerToken().'" />';
+			$args["csrfTokenInput"] = '<input type="hidden" name="'.$that->tokenName().'" value="'.$that->getServerToken().'" />';
 		};
 		
 			
