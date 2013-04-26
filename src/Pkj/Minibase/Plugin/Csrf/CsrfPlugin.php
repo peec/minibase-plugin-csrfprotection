@@ -1,9 +1,13 @@
 <?php
 namespace Pkj\Minibase\Plugin\Csrf;
 
+use Pkj\Minibase\Plugin\Csrf\Annotation\IgnoreCsrfProtection;
+
 use Minibase\Mvc\View;
 use Minibase\Http\Request;
 use Minibase\Plugin\Plugin;
+
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 
 /**
@@ -39,19 +43,31 @@ class CsrfPlugin extends Plugin {
 	private $beforeRender;
 	
 	public function stop () {
-		$this->mb->events->off("mb:route:before", $this->routeBefore);
+		$this->mb->events->off("mb:call:execute", $this->routeBefore);
 		$this->mb->events->off("before:render", $this->beforeRender);
 	}
 	
 	public function start () {
 		$that = $this;
 		
-		$this->routeBefore = function (Request $req) {
-			
+		
+		// Load custom annotations.
+		AnnotationRegistry::registerFile(__DIR__ . '/Annotation/Annotations.php');
+		
+		
+		$this->routeBefore = function (Request $req, $annotations) {
 			$this->setToken();
 			
+			$skip = $req->method === 'get';
+			foreach($annotations as $annotation) {
+				// Ignore CSRF protection.
+				if ($annotation instanceof IgnoreCsrfProtection) {
+					$skip = true;
+				}
+			}
 			
-			if ($req->method !== 'get') {
+			
+			if (!$skip) {
 				if (!isset($_REQUEST[$this->tokenName()]) || !$this->getServerToken() || $_REQUEST[$this->tokenName()] !== $this->getServerToken()) {
 					$call = $this->mb->events->trigger("csrf:invalid", 
 							array ($req), 
@@ -62,8 +78,7 @@ class CsrfPlugin extends Plugin {
 								return $response;
 							})[0];
 					
-					$this->mb->executeCall($call);
-					die();
+					return $call;
 				}
 			}
 		};
@@ -77,7 +92,7 @@ class CsrfPlugin extends Plugin {
 		
 			
 		// Create / validate token before route.
-		$this->mb->events->on("mb:route:before", $this->routeBefore);
+		$this->mb->events->on("mb:call:execute", $this->routeBefore);
 		// Add token var.
 		$this->mb->events->on("before:render", $this->beforeRender);
 		
