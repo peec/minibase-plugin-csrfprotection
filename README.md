@@ -62,3 +62,13 @@ $mb->events->on("csrf:invalid", function ($request) {
 });
 ```
 
+## Annotations
+
+First, use the class . `use Pkj\Minibase\Plugin\Csrf\Annotation\IgnoreCsrfProtection`.
+
+#### @IgnoreCsrfProtection
+
+Can be applied to controllers or a controller method. Useful for RESTful API's. (JSON API). In such where we do not need to check for CSRF protection.
+
+
+
