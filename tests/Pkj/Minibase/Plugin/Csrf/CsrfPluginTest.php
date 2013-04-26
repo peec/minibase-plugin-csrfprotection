@@ -38,7 +38,7 @@ class CsrfPluginTest extends \PHPUnit_Framework_TestCase {
 		$beforeRender = $refCsrf->getProperty('beforeRender');
 		$beforeRender->setAccessible(true);
 		
-		$callback = $bindings->getValue($mb->events)["mb:route:before"][0][0];
+		$callback = $bindings->getValue($mb->events)["mb:call:execute"][0][0];
 		$this->assertEquals($routeBefore->getValue($csrf), $callback );
 		
 		
@@ -48,7 +48,7 @@ class CsrfPluginTest extends \PHPUnit_Framework_TestCase {
 		
 		$csrf->stop();
 		
-		$this->assertEmpty($bindings->getValue($mb->events)["mb:route:before"]);
+		$this->assertEmpty($bindings->getValue($mb->events)["mb:call:execute"]);
 		$this->assertEmpty($bindings->getValue($mb->events)["before:render"]);
 		
 		
